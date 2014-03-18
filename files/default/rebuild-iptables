@@ -119,7 +119,8 @@ sub write_iptables {
 sub install_redhat {
   my (@data) = @_;
   write_iptables( '/etc/sysconfig/iptables', @data );
-  system( "/sbin/service", "iptables", "restart" );
+  system( "/sbin/service", "iptables", "restart" ) == 0
+    or die "iptables restart: failed, rules not committed! - $?"
 }
 
 # Install iptables on a Debian system.  Take the array containing the new
